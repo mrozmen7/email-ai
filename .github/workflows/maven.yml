@@ -19,10 +19,19 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'maven'   # Maven cache hız kazandırır
+          cache: 'maven'
 
-      - name: Build with Maven
-        run: mvn -B -ntp clean install -DskipTests
+      - name: Show tool versions
+        run: |
+          java -version
+          mvn -v
 
-      - name: Run tests
+      - name: Build (with dummy OPENAI key)
+        run: mvn -B -ntp clean install
+        env:
+          OPENAI_API_KEY: dummy-ci-key   # <-- ÖNEMLİ
+
+      - name: Run tests (with dummy OPENAI key)
         run: mvn -B -ntp test
+        env:
+          OPENAI_API_KEY: dummy-ci-key   # <-- ÖNEMLİ
